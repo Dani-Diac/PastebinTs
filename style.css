@@ -1,0 +1,26 @@
+#body {
+  text-align: center;
+  display: inline-flex;
+}
+
+#paste {
+  border: solid grey 1px;
+}
+
+.navbar {
+  font-size: 20px;
+}
+
+#home {
+  margin-left: 15%;
+}
+
+#archive {
+  float: right;
+  margin-right: 15%;
+}
+
+#title {
+  text-align: center;
+  margin-left: 47%;
+}
