@@ -4,7 +4,7 @@
 }
 
 #paste {
-  border: solid grey 1px;
+  margin-top: 1%;
 }
 
 .navbar {
@@ -23,4 +23,13 @@
 #title {
   text-align: center;
   margin-left: 47%;
+}
+
+#pastes {
+  border: solid grey 1px;
+  border-bottom: 0px;
+}
+
+.paste {
+  border-bottom: solid grey 2px;
 }

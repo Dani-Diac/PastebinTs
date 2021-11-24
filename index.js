@@ -1,24 +1,37 @@
-function savePaste(paste) {
+var pastesList = [];
+function getData() {
+    var name = document.getElementById('inputName').value;
+    var text = document.getElementById('inputText').value;
+    addNewPaste(name, text);
+}
+function addNewPaste(titleArg, textArg) {
+    pastesList = JSON.parse(localStorage.getItem('pastesList') || '[]');
+    var date = new Date().toLocaleString();
     var paste = {
-        text: document.getElementById('inputText').value,
-        title: document.getElementById('inputName').value,
-        description: document.getElementById('inputDescription').value
+        title: titleArg,
+        text: textArg,
+        created: date
     };
-    localStorage.setItem("context", JSON.stringify(paste));
+    pastesList.push(paste);
+    localStorage.setItem("pastesList", JSON.stringify(pastesList));
     window.location.href = "/paste.html";
 }
-function getContext() {
-    var pasteStr = localStorage.getItem('context');
-    try {
-        return JSON.parse(pasteStr);
+;
+function showData() {
+    document.getElementById('show').onclick = null;
+    pastesList = JSON.parse(localStorage.getItem('pastesList') || '[]');
+    var info = document.getElementById('pastes');
+    for (var _i = 0, _a = pastesList.reverse(); _i < _a.length; _i++) {
+        var paste = _a[_i];
+        var name_1 = document.createElement('p');
+        var text = document.createElement('textextarea');
+        var date = document.createElement('p');
+        date.className = "paste";
+        name_1.innerHTML = "Title: " + paste.title;
+        text.innerHTML = "Paste: " + paste.text;
+        date.innerHTML = "Created: " + paste.created;
+        info.appendChild(name_1);
+        info.appendChild(text);
+        info.appendChild(date);
     }
-    catch (e) {
-        return null;
-    }
-}
-function showContext() {
-    var savedContext = getContext();
-    document.getElementById('name').innerHTML = "Name: " + savedContext.title;
-    document.getElementById('paste').innerHTML = "Paste: " + savedContext.text;
-    document.getElementById('description').innerHTML = "Description: " + savedContext.description;
 }

@@ -1,32 +1,44 @@
 interface Paste {
- text: string;
- title: string;
- description: string;
+  title: string;
+  text: string;
+  created: string;
+}
+let pastesList: Paste[] = [];
+
+function getData() {
+  let name = (<HTMLInputElement>document.getElementById('inputName')).value;
+  let text = (<HTMLInputElement>document.getElementById('inputText')).value;
+  addNewPaste(name, text);
 }
 
-
-function savePaste(paste: Paste): void {
-  var paste = {
-    text: (<HTMLInputElement>document.getElementById('inputText')).value,
-    title: (<HTMLInputElement>document.getElementById('inputName')).value,
-    description: (<HTMLInputElement>document.getElementById('inputDescription')).value
+function addNewPaste(titleArg: string, textArg: string): void {
+  pastesList = JSON.parse(localStorage.getItem('pastesList') || '[]');
+  let date = new Date().toLocaleString();
+  let paste: Paste = {
+    title: titleArg,
+    text: textArg,
+    created: date
   };
-  localStorage.setItem("context", JSON.stringify(paste));
+  pastesList.push(paste);
+  localStorage.setItem("pastesList", JSON.stringify(pastesList));
   window.location.href = "/paste.html";
-}
+};
 
-function getContext(): Paste {
-  var pasteStr = localStorage.getItem('context');
-  try {
-    return JSON.parse(pasteStr);
-  } catch(e) {
-    return null;
+function showData() {
+  document.getElementById('show').onclick = null;
+  pastesList = JSON.parse(localStorage.getItem('pastesList') || '[]');
+  let info = document.getElementById('pastes');
+  for (let paste of pastesList.reverse()) {
+    let name = document.createElement('p');
+    let text = document.createElement('textextarea');
+    let date = document.createElement('p');
+    date.className = "paste";
+    name.innerHTML = "Title: " + paste.title;
+    text.innerHTML = "Paste: " + paste.text;
+    date.innerHTML = "Created: " +  paste.created;
+    info.appendChild(name);
+    info.appendChild(text);
+    info.appendChild(date);
+
   }
-}
-
-function showContext() {
-  var savedContext = getContext();
-  document.getElementById('name').innerHTML = "Name: " + savedContext.title;
-  document.getElementById('paste').innerHTML = "Paste: " + savedContext.text;
-  document.getElementById('description').innerHTML = "Description: " + savedContext.description;
 }
